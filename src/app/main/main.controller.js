@@ -30,7 +30,7 @@ function barChart($window) {
     }
 
     // Set the dimensions and margins of the graph
-    var margin = {top: 80, right: 20, bottom: 30, left: 100},
+    var margin = {top: 80, right: 20, bottom: 120, left: 100},
       width = 960 - margin.left - margin.right,
       height = 500 - margin.top - margin.bottom;
 
@@ -90,20 +90,12 @@ function barChart($window) {
         .remove()
         .exit();
 
-      svg.append("g")
-        .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x));
-
       svg.append("text")
         .attr("x", width / 2)
-        .attr("y", 30 + height)
+        .attr("y", 100 + height)
         .style("text-anchor", "middle")
         .style("font-weight", "bold")
         .text(titleX);
-
-      // Add the y
-      svg.append("g")
-        .call(d3.axisLeft(y));
 
       svg.append("text")
         .attr("transform", "rotate(-90)")
@@ -159,6 +151,19 @@ function barChart($window) {
         domainY.domain([0, d3.max(dataforYear, function (d) {
           return d.idh;
         })]);
+
+        svg.append("g")
+          .attr("transform", "translate(0," + height + ")")
+          .call(d3.axisBottom(x))
+          .selectAll("text")
+            .style("text-anchor", "end")
+            .attr("dx", "-.8em")
+            .attr("dy", ".15em")
+            .attr("transform", "rotate(-65)");
+
+        // Add the y
+        svg.append("g")
+          .call(d3.axisLeft(y));
 
         // Append the rectangles for the bar chart
         svg.selectAll(".bar")
